@@ -21,5 +21,8 @@
 		"node": ">=6"
 	},
 	"dependencies": {
+		"isomorphic-ws": "^4.0.0",
+		"reconnecting-websocket": "^3.2.2",
+		"ws": "^5.1.1"
 	}
 }
