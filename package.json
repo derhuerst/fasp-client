@@ -1,0 +1,25 @@
+{
+	"name": "fasp-client",
+	"description": "Control Friendly Audio Streaming Protocol (FASP) receivers in the local network.",
+	"version": "0.1.0",
+	"main": "index.js",
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"audio",
+		"streaming",
+		"friendly audio streaming protocol",
+		"fasp"
+	],
+	"author": "Jannis R <mail@jannisr.de>",
+	"homepage": "https://github.com/derhuerst/fasp-client",
+	"repository": "derhuerst/fasp-client",
+	"bugs": "https://github.com/derhuerst/fasp-client/issues",
+	"license": "ISC",
+	"engines": {
+		"node": ">=6"
+	},
+	"dependencies": {
+	}
+}
