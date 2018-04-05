@@ -17,8 +17,17 @@ npm install fasp-client
 
 ## Usage
 
+You need to have a [`fasp-receiver`](https://github.com/derhuerst/fasp-receiver)-compatible server running somewhere.
+
 ```js
-todo
+const createClient = require('fasp-client')
+
+const receiverUrl = 'ws://localhost:60123/'
+const client = createClient(receiverUrl, (status) => {
+	console.error(status.title || status.filename, status.progress)
+})
+
+client.play('http://example.org/path/to/audio.ogg')
 ```
 
 
