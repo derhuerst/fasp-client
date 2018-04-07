@@ -17,7 +17,7 @@ npm install fasp-client
 
 ## Usage
 
-You need to have a [`fasp-receiver`](https://github.com/derhuerst/fasp-receiver)-compatible server running somewhere.
+You need to have a [`fasp-receiver`](https://github.com/derhuerst/fasp-receiver)-compatible server (e.g. [`fasp-server`](https://github.com/derhuerst/fasp-server)) running somewhere.
 
 ```js
 const createClient = require('fasp-client')

@@ -36,7 +36,7 @@ const createClient = (url, onStatus) => {
 	const send = (cmd, args = []) => {
 		const msg = JSON.stringify([cmd].concat(args))
 		const _send = () => receiver.send(msg)
-		if (receiver.readyState === receiver.OPEN) _send()
+		if (receiver.readyState === WebSocket.OPEN) _send()
 		else receiver.once('open', _send)
 	}
 
@@ -50,7 +50,7 @@ const createClient = (url, onStatus) => {
 	}
 	const next = () => send('next')
 	const previous = () => send('previous')
-	const playPause = () => send('playPause')
+	const playPause = () => send('play-pause')
 	const seek = (pos) => {
 		if ('string' === typeof pos) {
 			if (pos.length < 2 || (pos[0] !== '+' && pos[0] !== '-')) {
@@ -66,7 +66,10 @@ const createClient = (url, onStatus) => {
 		send('seek-percent', [pos])
 	}
 	const setVolume = (volume) => {
-		assertNumber(volume, 'volume')
+		const t = typeof volume
+		if ('number' !== t && 'string' !== t) {
+			throw new Error('volume must be a string or a number.')
+		}
 		send('set-volume', [volume])
 	}
 	const stop = () => send('stop')
