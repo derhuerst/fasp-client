@@ -1,7 +1,7 @@
 {
 	"name": "fasp-client",
 	"description": "Control Friendly Audio Streaming Protocol (FASP) receivers in the local network.",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"main": "index.js",
 	"files": [
 		"index.js"
