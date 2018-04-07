@@ -66,10 +66,7 @@ const createClient = (url, onStatus) => {
 		send('seek-percent', [pos])
 	}
 	const setVolume = (volume) => {
-		const t = typeof volume
-		if ('number' !== t && 'string' !== t) {
-			throw new Error('volume must be a string or a number.')
-		}
+		assertNumber(volume, 'volume')
 		send('set-volume', [volume])
 	}
 	const stop = () => send('stop')
