@@ -30,6 +30,16 @@ const client = createClient(receiverUrl, (status) => {
 client.play('http://example.org/path/to/audio.ogg')
 ```
 
+Using the code above, you will only be able to let the receiver play files from a *remote* location. **If you want to play *local* files**, you need to serve them via HTTP and tell the receiver to fetch them from you. There is **a straightforward helper for this**:
+
+```js
+const withLocalFiles = require('fasp-client/with-local-files')
+
+withLocalFiles(client)
+```
+
+You can now pass file paths to `client.play` and `client.queue`. An HTTP server will be started on a random port, serving only these files.
+
 
 ## Contributing
 
