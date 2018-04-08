@@ -10,8 +10,8 @@ if (Number.isNaN(port)) {
 }
 const receiver = `ws://localhost:${port}/`
 
-const client = withLocalFiles(createClient(receiver, (status) => {
-	console.error(status)
+const client = withLocalFiles(createClient(receiver, (prop, val) => {
+	console.error(prop, val)
 }))
 
 client.queue('http://example.org/path/to/audio.ogg')

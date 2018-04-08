@@ -13,8 +13,9 @@ const assertNumber = (num, name) => {
 		throw new Error(name + ' must be a number.')
 	}
 }
+const is = val => val !== null && val !== undefined
 
-const createClient = (url, onStatus) => {
+const createClient = (url, onProp) => {
 	const receiver = new ReconnectingWebSocket(url, [], {
 		constructor: WebSocket
 	})
@@ -30,7 +31,7 @@ const createClient = (url, onStatus) => {
 			'string' !== typeof msg[0] ||
 			!msg[0].length
 		) return null
-		if (msg[0] === 'status') onStatus(msg[1])
+		if (msg[0] === 'prop') onProp(msg[1], msg[2])
 	})
 
 	const send = (cmd, args = []) => {
@@ -50,31 +51,34 @@ const createClient = (url, onStatus) => {
 	}
 	const next = () => send('next')
 	const previous = () => send('previous')
-	const playPause = () => send('play-pause')
-	const seek = (pos) => {
-		if ('string' === typeof pos) {
-			if (pos.length < 2 || (pos[0] !== '+' && pos[0] !== '-')) {
-				throw new Error('pos is invalid.')
-			}
-		} else if ('number' !== typeof pos) {
-			throw new Error('pos must be a string or a number.')
-		}
-		send('seek', [pos])
+	const remove = (idx) => {
+		assertNumber(idx, 'idx')
+		send('remove', [idx])
 	}
-	const seekPercent = (pos) => {
+	const stop = () => send('stop')
+
+	const resume = () => send('resume')
+	const pause = () => send('pause')
+	const seek = (pos, absolute, percent) => {
 		assertNumber(pos, 'pos')
-		send('seek-percent', [pos])
+		if (is(absolute) && 'boolean' !== typeof absolute) {
+			throw new Error('absolute must be a a boolean.')
+		}
+		if (is(percent) && 'boolean' !== typeof percent) {
+			throw new Error('percent must be a a boolean.')
+		}
+		send('seek', [pos, absolute, percent])
 	}
 	const setVolume = (volume) => {
 		assertNumber(volume, 'volume')
 		send('set-volume', [volume])
 	}
-	const stop = () => send('stop')
+
+	send('get-props')
 
 	return {
-		play, queue, next, previous,
-		playPause, seek, seekPercent,
-		setVolume, stop
+		play, queue, next, previous, remove, stop,
+		resume, pause, seek, setVolume
 	}
 }
 
