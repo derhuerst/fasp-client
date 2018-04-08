@@ -1,6 +1,8 @@
 # fasp-client
 
-**Control Friendly Audio Streaming Protocol (FASP) receivers in the local network.**
+**Control [Friendly Audio Streaming Protocol](https://github.com/derhuerst/friendly-audio-streaming-protocol) receivers in the local network.**
+
+Use [`fasp-client-cli`](https://github.com/derhuerst/fasp-client-cli) if you want to control receivers from the command line.
 
 [![npm version](https://img.shields.io/npm/v/fasp-client.svg)](https://www.npmjs.com/package/fasp-client)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/fasp-client.svg)
