@@ -2,6 +2,7 @@
 
 const WebSocket = require('isomorphic-ws')
 const ReconnectingWebSocket = require('reconnecting-websocket')
+const {parse, format} = require('url')
 
 const assertNonEmptyString = (str, name) => {
 	if ('string' !== typeof str || !str) {
@@ -31,9 +32,9 @@ const createClient = (url, onProp) => {
 	const receiver = new ReconnectingWebSocket(url, [], {
 		constructor: WebSocket
 	})
+	const {host, auth} = parse(url)
 
 	receiver.addEventListener('message', (msg) => {
-		console.error('msg', msg.data)
 		try {
 			msg = JSON.parse(msg.data)
 		} catch (err) {
@@ -44,7 +45,20 @@ const createClient = (url, onProp) => {
 			'string' !== typeof msg[0] ||
 			!msg[0].length
 		) return null
-		if (msg[0] === 'prop') onProp(msg[1], msg[2])
+
+		if (msg[0] === 'prop') {
+			const prop = msg[1]
+			let val = msg[2]
+			if (prop === 'artwork') {
+				// todo: move this to fasp-server?
+				const artwork = parse(val)
+				val = format({
+					protocol: 'http:', auth, host,
+					pathname: artwork.pathname, search: artwork.search
+				})
+			}
+			onProp(prop, val)
+		}
 	})
 
 	const send = (cmd, args = []) => {
