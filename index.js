@@ -15,14 +15,27 @@ const assertNumber = (num, name) => {
 }
 const is = val => val !== null && val !== undefined
 
+const once = (emitter, event, cb) => {
+	if ('function' === typeof emitter.once) {
+		emitter.once(event, cb)
+	} else {
+		const f = function () {
+			emitter.removeEventListener(event, f)
+			cb.apply({}, arguments)
+		}
+		emitter.addEventListener(event, f)
+	}
+}
+
 const createClient = (url, onProp) => {
 	const receiver = new ReconnectingWebSocket(url, [], {
 		constructor: WebSocket
 	})
 
-	receiver.on('message', (msg) => {
+	receiver.addEventListener('message', (msg) => {
+		console.error('msg', msg.data)
 		try {
-			msg = JSON.parse(msg)
+			msg = JSON.parse(msg.data)
 		} catch (err) {
 			return // ignore invalid messages
 		}
@@ -38,7 +51,7 @@ const createClient = (url, onProp) => {
 		const msg = JSON.stringify([cmd].concat(args))
 		const _send = () => receiver.send(msg)
 		if (receiver.readyState === WebSocket.OPEN) _send()
-		else receiver.once('open', _send)
+		else once(receiver, 'open', _send)
 	}
 
 	const play = (url) => {
