@@ -49,7 +49,7 @@ const createClient = (url, onProp) => {
 		if (msg[0] === 'prop') {
 			const prop = msg[1]
 			let val = msg[2]
-			if (prop === 'artwork') {
+			if (prop === 'artwork' && val) {
 				// todo: move this to fasp-server?
 				const artwork = parse(val)
 				val = format({
