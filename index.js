@@ -30,7 +30,7 @@ const once = (emitter, event, cb) => {
 
 const createClient = (url, onProp) => {
 	const receiver = new ReconnectingWebSocket(url, [], {
-		constructor: WebSocket
+		WebSocket,
 	})
 	const {host, auth} = parse(url)
 
