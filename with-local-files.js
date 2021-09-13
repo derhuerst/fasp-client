@@ -12,7 +12,7 @@ if (process.browser) {
 	const pify = require('pify')
 	const {stat} = require('fs')
 
-	const creatServer = require('./lib/serve-local-files')
+	const createServer = require('./lib/serve-local-files')
 
 	const pStat = pify(stat)
 	const isFile = (path) => {
@@ -37,7 +37,7 @@ if (process.browser) {
 
 				let serveFile = servers.get(client)
 				if (!serveFile) {
-					serveFile = creatServer()
+					serveFile = createServer()
 					servers.set(client, serveFile)
 				}
 
